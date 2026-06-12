@@ -1,0 +1,9 @@
+name: OpenSpec
+on:
+  issues:
+    types: [opened, edited]
+  pull_request:
+    types: [opened, edited]
+jobs:
+  openspec:
+    uses: Jam-Sw/.github/.github/workflows/validate-openspec.yml@main
