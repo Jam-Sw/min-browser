@@ -11,6 +11,9 @@ var openTabsInForegroundCheckbox = document.getElementById('checkbox-open-tabs-i
 var autoPlayCheckbox = document.getElementById('checkbox-enable-autoplay')
 var userAgentCheckbox = document.getElementById('checkbox-user-agent')
 var userAgentInput = document.getElementById('input-user-agent')
+var extensionsList = document.getElementById('extensions-list')
+var addExtensionButton = document.getElementById('add-extension-button')
+var extensionsStatus = document.getElementById('extensions-status')
 
 function showRestartRequiredBanner () {
   banner.hidden = false
@@ -402,6 +405,132 @@ settings.get('collectUsageStats', function (value) {
 usageStatisticsCheckbox.addEventListener('change', function (e) {
   settings.set('collectUsageStats', this.checked)
 })
+
+/* extension management */
+
+function clearElement (el) {
+  if (!el) return
+  while (el.firstChild) {
+    el.removeChild(el.firstChild)
+  }
+}
+
+function renderExtensionList (result) {
+  if (!extensionsList) {
+    return
+  }
+
+  var extensions = result.extensions || []
+
+  clearElement(extensionsList)
+
+  if (extensions.length === 0) {
+    var emptyMessage = document.createElement('div')
+    emptyMessage.className = 'extension-meta'
+    emptyMessage.textContent = l('settingsExtensionsEmpty')
+    extensionsList.appendChild(emptyMessage)
+  } else {
+    extensions.forEach(function (ext) {
+      var row = document.createElement('div')
+      row.className = 'extension-row'
+
+      var details = document.createElement('div')
+      details.className = 'extension-details'
+
+      var title = document.createElement('div')
+      title.className = 'extension-title'
+      title.textContent = ext.name || ext.id || ext.path
+      details.appendChild(title)
+
+      var metaParts = []
+      if (ext.version) {
+        metaParts.push(ext.version)
+      }
+      if (ext.manifestVersion) {
+        metaParts.push('MV' + ext.manifestVersion)
+      }
+      if (ext.path) {
+        metaParts.push(ext.path)
+      }
+
+      if (metaParts.length > 0) {
+        var meta = document.createElement('div')
+        meta.className = 'extension-meta'
+        meta.textContent = metaParts.join(' · ')
+        details.appendChild(meta)
+      }
+
+      if (ext.lastError) {
+        var error = document.createElement('div')
+        error.className = 'extension-error'
+        error.textContent = l('settingsExtensionsLoadFailed').replace('%s', ext.lastError)
+        details.appendChild(error)
+      }
+
+      var actions = document.createElement('div')
+      actions.className = 'extension-actions'
+
+      var toggle = document.createElement('input')
+      toggle.type = 'checkbox'
+      toggle.checked = ext.enabled !== false
+      toggle.id = 'extension-toggle-' + (ext.id || Math.random().toString(16).slice(2))
+      toggle.setAttribute('aria-label', l('settingsExtensionsToggleLabel'))
+      toggle.addEventListener('change', function (e) {
+        postMessage({ message: 'toggleExtension', id: ext.id, path: ext.path, enabled: e.target.checked })
+      })
+
+      var toggleLabel = document.createElement('label')
+      toggleLabel.setAttribute('for', toggle.id)
+      toggleLabel.textContent = l('settingsExtensionsEnabledLabel')
+
+      var removeButton = document.createElement('button')
+      removeButton.textContent = l('settingsExtensionsRemove')
+      removeButton.addEventListener('click', function () {
+        postMessage({ message: 'removeExtension', id: ext.id, path: ext.path })
+      })
+
+      actions.appendChild(toggle)
+      actions.appendChild(toggleLabel)
+      actions.appendChild(removeButton)
+
+      row.appendChild(details)
+      row.appendChild(actions)
+
+      extensionsList.appendChild(row)
+    })
+  }
+
+  if (extensionsStatus) {
+    if (result.error) {
+      extensionsStatus.textContent = result.error
+    } else if (result.cancelled) {
+      extensionsStatus.textContent = ''
+    } else if (result.success === false) {
+      extensionsStatus.textContent = l('settingsExtensionsLoadFailed').replace('%s', result.error || '')
+    } else {
+      extensionsStatus.textContent = ''
+    }
+  }
+}
+
+window.addEventListener('message', function (e) {
+  if (e.data && e.data.message === 'extensionsData' && e.data.data) {
+    renderExtensionList(e.data.data)
+  }
+})
+
+if (addExtensionButton) {
+  addExtensionButton.addEventListener('click', function () {
+    if (extensionsStatus) {
+      extensionsStatus.textContent = l('settingsExtensionsLoading')
+    }
+    postMessage({ message: 'addExtension' })
+  })
+}
+
+if (extensionsList) {
+  postMessage({ message: 'getExtensions' })
+}
 
 /* default search engine setting */
 

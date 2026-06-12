@@ -434,13 +434,13 @@ function buildAppMenu (options = {}) {
         {
           label: l('appMenuTakeTour'),
           click: function () {
-            openTabInWindow('https://minbrowser.github.io/min/tour/')
+            openTabInWindow('https://github.com/Jam-Sw/min-browser')
           }
         },
         {
           label: l('appMenuViewGithub'),
           click: function () {
-            openTabInWindow('https://github.com/minbrowser/min')
+            openTabInWindow('https://github.com/Jam-Sw/min-browser')
           }
         },
         ...(process.platform !== 'darwin' ? [{ type: 'separator' }] : []),

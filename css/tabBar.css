@@ -288,6 +288,8 @@ body:not(.touch)
   height: 36px;
   margin-top: -0.5px;
   font-size: 1.4em !important;
+  -webkit-app-region: no-drag;
+  cursor: pointer;
 }
 body.windows .navbar-action-button:not(:disabled):hover {
   background-color: rgba(0, 0, 0, 0.075);
@@ -303,6 +305,55 @@ body.windows.dark-theme .navbar-action-button:not(:disabled):hover {
 }
 .navbar-right-actions {
   margin-right: 2.3em;
+}
+
+.extensions-toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+  margin-right: 0.25em;
+  -webkit-app-region: no-drag;
+}
+
+.extensions-button-icon {
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin: 0 auto;
+}
+
+#extensions-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15em;
+  -webkit-app-region: no-drag;
+}
+
+.extension-icon-button {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  border-radius: 4px;
+  -webkit-app-region: no-drag;
+  cursor: pointer;
+}
+
+.extension-icon-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.extension-icon-button:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.dark-theme .extension-icon-button:hover {
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .navbar-right-actions #add-tab-button {

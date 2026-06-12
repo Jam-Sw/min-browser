@@ -85,7 +85,8 @@ const sessionRestore = {
         tasks.setSelected(tasks.add()) // create a new task
 
         var newTab = tasks.getSelected().tabs.add({
-            url: 'https://minbrowser.github.io/min/tour'
+            // Open the custom tour/landing page on first run
+            url: 'https://github.com/Jam-Sw/min-browser'
         })
         browserUI.addTab(newTab, {
          enterEditMode: false

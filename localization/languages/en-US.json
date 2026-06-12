@@ -65,6 +65,7 @@
     "runUserscript": "Run userscript",
     /* navbar */
     "openMenu": "Open menu", //application menu button on windows
+    "openExtensions": "Open extensions",
     "enterReaderView": "Enter Reader View",
     "exitReaderView": "Exit Reader View",
     "newTabLabel": "New Tab", //this is a noun, used for tabs that don't have a page loaded in them yet
@@ -166,6 +167,17 @@
     "settingsSeparateTitlebarToggle": "Use separate title bar",
     "settingsAutoplayToggle": "Enable Autoplay",
     "settingsOpenTabsInForegroundToggle": "Open new tabs in the foreground",
+    "settingsExtensionsHeading": "Extensions (Experimental)",
+    "settingsExtensionsDescription": {
+      "unsafeHTML": "Load unpacked Chrome extensions. Extensions run in normal tabs; private tabs do not load installed extensions."
+    },
+    "settingsExtensionsLoadUnpacked": "Load unpacked extension",
+    "settingsExtensionsRemove": "Remove",
+    "settingsExtensionsToggleLabel": "Enable extension",
+    "settingsExtensionsEnabledLabel": "Enabled",
+    "settingsExtensionsLoading": "Opening folder picker…",
+    "settingsExtensionsEmpty": "No extensions installed yet.",
+    "settingsExtensionsLoadFailed": "Failed to load extension: %s",
     "settingsUserscriptsExplanation": {
       "unsafeHTML": "User scripts allow you to modify the behavior of websites - <a href=\"https://github.com/minbrowser/min/wiki/userscripts\">learn more</a>."
     },

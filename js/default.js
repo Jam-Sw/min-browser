@@ -122,9 +122,17 @@ window.addEventListener('load', function () {
 
   var dragHandles = document.getElementsByClassName('windowDragHandle')
 
+  function isNonDraggableTarget (target) {
+    return target.closest('.navbar-action-button') ||
+           target.closest('.extension-icon-button') ||
+           target.closest('#extensions-toolbar') ||
+           target.closest('#extensions-icons')
+  }
+
   for (var i = 0; i < dragHandles.length; i++) {
     dragHandles[i].addEventListener('mousemove', function (e) {
       if (isMouseDown) {
+        if (isNonDraggableTarget(e.target)) return
         isDragging = true
         distance += Math.abs(e.movementX) + Math.abs(e.movementY)
       }
@@ -143,6 +151,7 @@ require('tabState.js').initialize()
 require('tabState/windowSync.js').initialize()
 require('windowControls.js').initialize()
 require('navbar/menuButton.js').initialize()
+require('navbar/extensionsButton.js').initialize()
 
 require('navbar/addTabButton.js').initialize()
 require('navbar/tabContextMenu.js').initialize()

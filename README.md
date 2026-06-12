@@ -8,6 +8,7 @@ Min is a fast, minimal browser that protects your privacy. It includes an interf
 - Tasks (tab groups)
 - Bookmark tagging
 - Password manager integration
+- Experimental Chrome extension support (load unpacked extensions from Settings → Extensions)
 - Dark theme
 
 Download Min from the [releases page](https://github.com/minbrowser/min/releases), or learn more on the [website](https://minbrowser.org/).

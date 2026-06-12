@@ -61,4 +61,40 @@ window.addEventListener('message', function (e) {
   if (e.data?.message === 'downloadFile') {
     ipc.send('downloadFile', e.data.url)
   }
+
+  if (e.data?.message === 'getExtensions') {
+    const targetOrigin = e.origin
+    ipc.invoke('extensions:list').then(function (result) {
+      window.postMessage({ message: 'extensionsData', data: result }, targetOrigin)
+    }).catch(function (err) {
+      window.postMessage({ message: 'extensionsData', data: { success: false, error: err.message } }, targetOrigin)
+    })
+  }
+
+  if (e.data?.message === 'addExtension') {
+    const targetOrigin = e.origin
+    ipc.invoke('extensions:add', { path: e.data.path }).then(function (result) {
+      window.postMessage({ message: 'extensionsData', data: result }, targetOrigin)
+    }).catch(function (err) {
+      window.postMessage({ message: 'extensionsData', data: { success: false, error: err.message } }, targetOrigin)
+    })
+  }
+
+  if (e.data?.message === 'toggleExtension') {
+    const targetOrigin = e.origin
+    ipc.invoke('extensions:toggle', { id: e.data.id, path: e.data.path, enabled: e.data.enabled }).then(function (result) {
+      window.postMessage({ message: 'extensionsData', data: result }, targetOrigin)
+    }).catch(function (err) {
+      window.postMessage({ message: 'extensionsData', data: { success: false, error: err.message } }, targetOrigin)
+    })
+  }
+
+  if (e.data?.message === 'removeExtension') {
+    const targetOrigin = e.origin
+    ipc.invoke('extensions:remove', { id: e.data.id, path: e.data.path }).then(function (result) {
+      window.postMessage({ message: 'extensionsData', data: result }, targetOrigin)
+    }).catch(function (err) {
+      window.postMessage({ message: 'extensionsData', data: { success: false, error: err.message } }, targetOrigin)
+    })
+  }
 })
